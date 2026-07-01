@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Our stylesheet -->
+  <link rel="stylesheet" href="style.css?v=20260630">
+  <style>
+  /* ============================================================
+     PAGE MESSAGE — birthday memory collage
+     ============================================================ */
+  #pageMessage {
+    background: #f8f0f5;
+    color: #422d49;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 0;
+  }
+  #pageMessage .page-shell {
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2.2rem 1rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  #pageMessage .memory-copy {
+    position: relative;
+    z-index: 2;
+    max-width: 520px;
+    margin: 0 auto 24px;
+    text-align: center;
+  }
+  #pageMessage .memory-label {
+    font-size: .75rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #9b7f9f;
+    margin-bottom: .65rem;
+  }
+  #pageMessage .memory-heading {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    line-height: 1.05;
+    margin-bottom: .85rem;
+    color: #452a4a;
+  }
+  #pageMessage .memory-subtext {
+    max-width: 460px;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #5e4864;
+  }
+  #pageMessage .collage-stage {
+    position: relative;
+    width: min(92vw, 760px);
+    aspect-ratio: 0.92;
+    margin: 0 auto 2.5rem;
+    z-index: 1;
+    overflow: visible;
+  }
+  #pageMessage .collage-base {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 56%;
+    height: 56%;
+    background: #d4e8ff;
+    background-image: linear-gradient(45deg, rgba(255,255,255,.9) 25%, transparent 25%, transparent 75%, rgba(255,255,255,.9) 75%, rgba(255,255,255,.9)), linear-gradient(45deg, rgba(255,255,255,.9) 25%, transparent 25%, transparent 75%, rgba(255,255,255,.9) 75%, rgba(255,255,255,.9));
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    border-radius: 24px;
+    transform: translate(-50%, -50%) rotate(-1deg);
+
+    box-shadow: 0 16px 38px rgba(69,34,74,.12);
+overflow: hidden;
+    z-index: 2;
+  }
+  #pageMessage .collage-photo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 56%;
+    height: 56%;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 16px 38px rgba(0,0,0,.18);
+    transform: translate(-50%, -50%) rotate(8deg) scale(.82);
+    transition: transform 2.5s cubic-bezier(.25,.8,.25,1), opacity 1.2s ease;
+    opacity: 0;
+    z-index: 6;
+  }
+  #pageMessage .collage-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+  #pageMessage .collage-item {
+    position: absolute;
+    transition: transform 2.5s cubic-bezier(.25,.8,.25,1), opacity 1.2s ease;
+    opacity: 0;
+    width: 32%;
+    max-width: 220px;
+    will-change: transform, opacity;
+    filter: drop-shadow(0 10px 16px rgba(69, 34, 74, 0.18));
+  }
+  #pageMessage .collage-item-inner {
+    position: relative;
+    width: 100%;
+    animation: none;
+  }
+  #pageMessage .collage-item img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  #pageMessage .collage-hat {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(180deg, #ffe586, #f9b35d);
+    border-radius: 0 0 50% 50%;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-8deg);
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  }
+  #pageMessage .collage-hat::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: #fff5b8;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 6px rgba(255,255,255,.75);
+  }
+  #pageMessage .collage-dog { top: 12%; left: 8%; transform: translate(-180%, -140%) rotate(-42deg) scale(0.72); z-index: 7; transition-delay: 0.35s; }
+  #pageMessage .collage-fish { top: 42%; left: 8%; transform: translate(-180%, 120%) rotate(-24deg) scale(0.72); z-index: 5; transition-delay: 0.55s; }
+  #pageMessage .collage-smile-star { top: 10%; left: 62%; transform: translate(180%, -150%) rotate(16deg) scale(0.72); z-index: 7; transition-delay: 0.75s; }
+  #pageMessage .collage-scribble-star { top: 56%; left: 16%; transform: translate(-180%, 140%) rotate(-18deg) scale(0.72); z-index: 6; transition-delay: 0.95s; }
+  #pageMessage .collage-frog { top: 65%; left: 65%; transform: translate(180%, 170%) rotate(16deg) scale(0.72); z-index: 7; transition-delay: 1.15s; }
+  #pageMessage.animate .collage-photo,
+  #pageMessage.animate .collage-item { opacity: 1; }
+  #pageMessage.animate .collage-photo { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+  #pageMessage.animate .collage-dog { transform: translate(0,0) rotate(-8deg) scale(1); }
+  #pageMessage.animate .collage-fish { transform: translate(0,0) rotate(-4deg) scale(1); }
+  #pageMessage.animate .collage-smile-star { transform: translate(0,0) rotate(2deg) scale(1); }
+  #pageMessage.animate .collage-scribble-star { transform: translate(0,0) rotate(-6deg) scale(1); }
+  #pageMessage.animate .collage-frog { transform: translate(0,0) rotate(6deg) scale(1); }
+  #pageMessage.animate .collage-dog .collage-item-inner {
+    animation: message-sticker-bob-a 3.6s ease-in-out 2.85s infinite;
+  }
+  #pageMessage.animate .collage-fish .collage-item-inner {
+    animation: message-sticker-bob-b 4.1s ease-in-out 3.05s infinite;
+  }
+  #pageMessage.animate .collage-smile-star .collage-item-inner {
+    animation: message-sticker-bob-c 3.8s ease-in-out 3.25s infinite;
+  }
+  #pageMessage.animate .collage-scribble-star .collage-item-inner {
+    animation: message-sticker-bob-a 3.6s ease-in-out 3.45s infinite;
+  }
+  #pageMessage.animate .collage-frog .collage-item-inner {
+    animation: message-sticker-bob-b 4.1s ease-in-out 3.65s infinite;
+  }
+  #pageMessage .message-section {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    padding: 0 0 2rem;
+  }
+  #pageMessage .message-card-wrap {
+    position: relative;
+    width: min(92vw, 760px);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+  #pageMessage .message-sticker {
+    position: absolute;
+    width: clamp(96px, 21vw, 164px);
+    pointer-events: none;
+    z-index: 4;
+    opacity: 0;
+    transition: transform 2.5s cubic-bezier(.25,.8,.25,1), opacity 1.2s ease;
+    will-change: transform, opacity;
+    filter: drop-shadow(0 10px 16px rgba(69, 34, 74, 0.18));
+  }
+  #pageMessage .message-sticker-inner {
+    width: 100%;
+    animation: none;
+  }
+  #pageMessage .message-sticker img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  #pageMessage .message-sticker-flydog {
+    top: -14px;
+    right: -18px;
+    transform: translate(8%, -18%) rotate(20deg) scale(0.94);
+    transition-delay: 1.35s;
+  }
+  #pageMessage .message-sticker-mrduck {
+    bottom: -78px;
+    left: -26px;
+    transform: translate(-45%, 30%) rotate(-24deg) scale(0.72);
+    transition-delay: 1.55s;
+  }
+  #pageMessage .message-sticker-duostar {
+    bottom: -14px;
+    right: -18px;
+    transform: translate(0%, 18%) rotate(14deg) scale(0.94);
+    transition-delay: 1.75s;
+  }
+  #pageMessage.animate .message-sticker {
+    opacity: 1;
+  }
+  #pageMessage.animate .message-sticker-flydog {
+    transform: translate(0, 0) rotate(8deg) scale(1);
+  }
+  #pageMessage.animate .message-sticker-mrduck {
+    transform: translate(0, 0) rotate(-7deg) scale(1);
+  }
+  #pageMessage.animate .message-sticker-duostar {
+    transform: translate(0, 0) rotate(5deg) scale(1);
+  }
+  #pageMessage.animate .message-sticker-flydog .message-sticker-inner {
+    animation: message-sticker-bob-a 3.6s ease-in-out 3.9s infinite;
+  }
+  #pageMessage.animate .message-sticker-mrduck .message-sticker-inner {
+    animation: message-sticker-bob-b 4.1s ease-in-out 4.1s infinite;
+  }
+  #pageMessage.animate .message-sticker-duostar .message-sticker-inner {
+    animation: message-sticker-bob-c 3.8s ease-in-out 4.3s infinite;
+  }
+  @keyframes message-sticker-bob-a {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-7px) rotate(2deg); }
+  }
+  @keyframes message-sticker-bob-b {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-9px) rotate(-2deg); }
+  }
+  @keyframes message-sticker-bob-c {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(3deg); }
+  }
+  @media (max-width: 520px) {
+    #pageMessage .collage-item {
+      width: 34%;
+      max-width: 168px;
+    }
+    #pageMessage .collage-dog { transition-delay: 0.35s; }
+    #pageMessage .collage-fish { transition-delay: 0.55s; }
+    #pageMessage .collage-smile-star { transition-delay: 0.75s; }
+    #pageMessage .collage-scribble-star { transition-delay: 0.95s; }
+    #pageMessage .collage-frog { transition-delay: 1.15s; }
+    #pageMessage .message-sticker {
+      width: clamp(78px, 19vw, 124px);
+    }
+    #pageMessage .message-sticker-flydog { top: -78px; right: 98px; }
+    #pageMessage .message-sticker-mrduck { bottom: -42px; left: -22px; }
+    #pageMessage .message-sticker-duostar { bottom: 4px; right: -20px; }
+  }
+  #pageMessage .message-card {
+    width: 100%;
+    background: linear-gradient(145deg, #fff7fb 0%, #ffeef7 100%);
+    border-radius: 32px;
+    padding: 2rem 1.3rem 2.1rem;
+    box-shadow: 0 18px 42px rgba(122, 68, 95, 0.16);
+    border: 1px solid rgba(255,255,255,0.75);
+    position: relative;
+  }
+  #pageMessage .message-card::before,
+  #pageMessage .message-card::after {
+    content: '♡';
+    position: absolute;
+    color: #e8a7be;
+    font-size: 1rem;
+    opacity: 0.8;
+  }
+  #pageMessage .message-card::before { top: 14px; right: 18px; }
+  #pageMessage .message-card::after { bottom: 14px; left: 18px; }
+  #pageMessage .love-message {
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    transition-delay: 1.15s;
+  }
+  #pageMessage.animate .love-message {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  #pageMessage .love-message h2 {
+    font-family: 'Great Vibes', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #4A3B4D;
+    margin: 0 0 1.4rem;
+  }
+  #pageMessage .love-message p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.9;
+    color: #4A3B4D;
+    text-align: left;
+    margin: 0 0 1rem;
+  }
+  #pageMessage .love-message .message-break {
+    height: 0.7rem;
+  }
+  #pageMessage .back-btn {
+    margin: 1.2rem auto 0;
+    display: block;
+    color: #000;
+    border: #452a4a 1px solid;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+
+  <!-- ==========================================================
+       PAGE 1 — COUNTDOWN
+       This is the first page users see.
+       ========================================================== -->
+  <section class="page " id="page1">
+    <div class="sparkles"></div>
+    <div class="floaty-hearts" id="heartsContainer"></div>
+
+    <!-- ✏️ Small label above title -->
+    <div class="cd-eyebrow">✦ counting down ✦</div>
+
+    <!-- ✏️ Main title — uses Great Vibes cursive font -->
+    <div class="cd-title">His Special Day<br>is Coming</div>
+
+    <!-- ✏️ Subtitle text — <span> text shows in gold -->
+    <div class="cd-sub">Something beautiful is waiting for you <span>♡</span></div>
+
+    <!-- Countdown boxes — numbers updated automatically by script.js -->
+    <div class="cd-boxes">
+      <div class="cd-box">
+        <div class="cd-num" id="cd-days">00</div>
+        <div class="cd-lbl">DAYS</div>
+      </div>
+      <div class="cd-box">
+        <div class="cd-num" id="cd-hours">00</div>
+        <div class="cd-lbl">HOURS</div>
+      </div>
+      <div class="cd-box">
+        <div class="cd-num" id="cd-mins">00</div>
+        <div class="cd-lbl">MINS</div>
+      </div>
+      <div class="cd-box">
+        <div class="cd-num" id="cd-secs">00</div>
+        <div class="cd-lbl">SECS</div>
+      </div>
+    </div>
+
+    <!-- ✏️ Message shown WHILE the countdown is running -->
+    <div class="cd-bottom-msg" id="waitingMsg">
+      🎂 Count down the seconds until you discover how much you truly mean to me 🎂
+    </div>
+
+    <!-- ✏️ Message shown WHEN countdown hits zero -->
+    <div class="cd-zero-msg" id="zeroMsg">
+      ✨ The wait is over—your special day is finally here! ✨
+    </div>
+
+    <!-- Button appears automatically when countdown hits zero -->
+    <button class="open-btn" id="openGiftBtn">✦ OPEN HIS GIFT ✦</button>
+  </section>
+
+
+  <!-- ==========================================================
+       PAGE 2 — CHOOSE YOUR GIFT
+       Three clickable options: Message, Flower, Cake
+       ========================================================== -->
+  <section class="page active" id="page2">
+    <div class="sparkles"></div>
+
+    <!-- ✏️ Page title -->
+    <div class="gift-title">choose your gift</div>
+
+    <div class="gift-row">
+
+      <!-- OPTION 1: MESSAGE -->
+      <!-- data-target tells the JS which page to open on click -->
+      <div class="gift-item" data-target="pageMessage">
+        <!-- ✏️ Replace the src below to use a different icon -->
+        <img src="letr.gif" alt="Message Icon">
+        <!-- ✏️ Label text -->
+        <div class="gift-label">MESSAGE</div>
+      </div>
+
+      <!-- OPTION 2: FLOWER -->
+      <div class="gift-item" data-target="pageFlower">
+        <!-- ✏️ Replace the src below to use a different icon -->
+        <img src="flo.gif" alt="Flower Icon">
+        <!-- ✏️ Label text -->
+        <div class="gift-label">FLOWER</div>
+      </div>
+
+      <!-- OPTION 3: CAKE -->
+      <div class="gift-item" data-target="pageCake">
+        <!-- ✏️ Replace the src below to use a different icon -->
+        <img src="cakee.gif" alt="Cake Icon">
+        <div class="gift-label">CAKE</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==========================================================
+       PAGE 3 — MESSAGE GIFT
+       ========================================================== -->
+    <section class="page gift-page" id="pageMessage">
+    <div class="sparkles"></div>
+
+    <div class="page-shell">
+      <div class="memory-copy">
+        <div class="memory-label">A Love Letter Just for You </div>
+        <div class="memory-heading">Some feelings are too precious to stay unspoken. So I wrote them here, just for you</div>
+        <div class="memory-subtext">Every word below is a little piece of my heart, written with all my love for you</div>
+      </div>
+
+      <div class="collage-stage">
+        <div class="collage-base"></div>
+
+        <div class="collage-photo">
+          <img id="babyImg" class="baby-img" src="momo.png" alt="baby photo">
+        </div>
+
+        <div class="collage-item collage-dog">
+          <div class="collage-item-inner">
+           <img id="dogImg" class="dog-img" src="dog.png" alt="dog photo">
+            <div class="collage-hat"></div>
+          </div>
+        </div>
+
+        <div class="collage-item collage-fish">
+          <div class="collage-item-inner">
+          <img src="fish.png" alt="orange fish">
+            <div class="collage-hat"></div>
+          </div>
+        </div>
+
+        <div class="collage-item collage-smile-star">
+          <div class="collage-item-inner">
+  <img src="draw.png" alt="smile star">
+          </div>
+   </div>
+
+        <div class="collage-item collage-scribble-star">
+          <div class="collage-item-inner">
+  <img src="star.png" alt=" star">
+          </div>
+        </div>
+
+        <div class="collage-item collage-frog">
+          <div class="collage-item-inner">
+  <img src="frog.png" alt="frog">
+            <div class="collage-hat"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="message-section">
+        <div class="message-card-wrap">
+          <div class="message-sticker message-sticker-flydog" aria-hidden="true">
+            <div class="message-sticker-inner">
+              <img src="FlyDog.png" alt="">
+            </div>
+          </div>
+          <div class="message-sticker message-sticker-mrduck" aria-hidden="true">
+            <div class="message-sticker-inner">
+              <img src="MrDuck.png" alt="">
+            </div>
+          </div>
+          <div class="message-sticker message-sticker-duostar" aria-hidden="true">
+            <div class="message-sticker-inner">
+              <img src="duostar.png" alt="">
+            </div>
+          </div>
+          <div class="message-card">
+          <div class="love-message">
+            <h2>Happy Birthday, My Love </h2>
+            <p>Being with you is truly one of the best things that has ever happened to me. From the moment you came into my life, everything started to feel brighter and more meaningful. Thank you for loving me the way you do, for supporting me even when things are difficult, and for always reminding me that I'm not alone. You make ordinary days feel special just by being there.</p>
+            <div class="message-break"></div>
+            <p>I'm so grateful for every laugh we share, every memory we create, and every moment we spend together. You have a way of making my heart feel safe and happy at the same time. Your kindness, your strength, and the way you care for the people around you are just some of the many reasons why I admire you so much.</p>
+            <div class="message-break"></div>
+            <p>Thank you for being my partner, my best friend, and my greatest blessing. I'm so lucky to call you mine, today and always.</p>
+            <div class="message-break"></div>
+            <p>Happy Birthday again, my love. I love you more than words can ever explain. </p>
+          </div>
+
+          <button class="back-btn back-to-gifts">back to gifts ✦</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<section class="page gift-page" id="pageFlower">
+    <div class="sparkles"></div>
+
+  <!-- Flower — notebook-style black scrapbook layout -->
+    <style id="flower-page-styles">
+      :root{--bg:#6d1919;--paper:#fff9ea;--gold:#d4b86e}
+      html,body{background:var(--bg);color:#fff;margin:0;padding:0}
+      #pageFlower{background:var(--bg);color:#fff;margin:0;padding:0;overflow:auto;position:relative}
+      
+      /* === SECTION 1: COLLAGE ONLY === */
+      .flower-collage-section{min-height:100vh;padding:60px 30px;position:relative;width:100%;background:var(--bg);margin:0}
+      
+      .gift-page-title{font-family:Georgia, 'Times New Roman', serif;color:var(--gold);text-align:center;font-size:18px;letter-spacing:.06em;margin-bottom:40px}
+      
+      /* Collage container */
+      .collage-container{position:relative;width:100%;max-width:1400px;margin:0 auto;min-height:calc(100vh - 160px)}
+      
+      /* Image cards - no borders */
+      .collage-container img{position:absolute;object-fit:contain;border:none;border-radius:0;box-shadow:none;z-index:1}
+      
+      /* b1: top left */
+      .img-b1{left:3%;top:5%;width:360px;height:350px;transform:rotate(-3deg);z-index:7}
+      
+      /* b2: stamp near upper middle-left */
+      .img-b5{left:32%;top:10%;width:300px;height:300px;transform:rotate(-1deg);z-index:6}
+      
+      /* b3: top right large */
+      .img-b3{left:62%;top:9.5%;width:390px;height:280px;transform:rotate(2deg);z-index:5}
+      
+      /* b4: bottom left */
+      .img-b4{left:3%;top:50%;width:340px;height:390px;transform:rotate(2deg);z-index:4}
+      
+      /* b5: center-left bottom */
+      .img-b7{left:32%;top:55%;width:300px;height:300px;transform:rotate(-2deg);z-index:3}
+      
+      /* b6: center bottom */
+      .img-b6{left:57%;top:52%;width:300px;height:340px;transform:rotate(1deg);z-index:2}
+      
+      /* b7: right bottom */
+      .img-b2{left:79%;top:52%;width:300px;height:340px;transform:rotate(-4deg);z-index:1}
+      
+      /* Handwritten note blocks */
+      .collage-container .note{position:absolute;color:#ffffff;font-family:'Bradley Hand','Brush Script MT','Segoe Script',cursive;font-size:13px;line-height:1.5;white-space:pre-wrap;z-index:8}
+      
+      .note1{left:10%;top:5%;width:80px}
+      .note2{left:35%;top:45%;width:160px}
+      .note3{left:60%;top:30px;width:280px;font-size:14px}
+      .note4{left:34%;top:89%;width:180px}
+      .note5{left:65%;top:97%;width:120px;font-size:12px}
+      .note6{left:5%;top:46%;width:220px}
+      .note7{left:88%;top:48%;width:85px;font-size:12px}
+      
+      /* entrance animation */
+      .collage-container:not(.ready) img{opacity:0;transform:translateY(16px) scale(.98)}
+      .collage-container.ready img{animation:enter .7s cubic-bezier(.2,.9,.28,1) both}
+      .collage-container.ready .img-b1{animation-delay:.05s}
+      .collage-container.ready .img-b2{animation-delay:.1s}
+      .collage-container.ready .img-b3{animation-delay:.15s}
+      .collage-container.ready .img-b4{animation-delay:.2s}
+      .collage-container.ready .img-b5{animation-delay:.25s}
+      .collage-container.ready .img-b6{animation-delay:.3s}
+      .collage-container.ready .img-b7{animation-delay:.35s}
+      @keyframes enter{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+      
+      /* === SECTION 2: MESSAGE & B8 === */
+      .flower-message-section{width:100%;margin:0;padding:60px 30px 100px;background:var(--bg);display:flex;align-items:center;justify-content:center;gap:40px}
+      
+      .message-b8{width:300px;height:200px;object-fit:contain;border:none}
+      
+      .message-card{background:var(--paper);color:#222;padding:26px;border-radius:10px;box-shadow:0 20px 50px rgba(0,0,0,.6);max-width:520px;border:1px solid rgba(0,0,0,.06)}
+      .message-card h3{margin:0 0 8px;font-family:Georgia, serif;color:#7b5e2b}
+      .message-card p{margin:0;color:#3b332c;line-height:1.45}
+      
+      /* message section animations */
+      .flower-message-section.show .message-b8{animation:fadeIn .9s cubic-bezier(.2,.9,.28,1) both}
+      .flower-message-section.show .message-card{animation:fadeIn .9s cubic-bezier(.2,.9,.28,1) both;animation-delay:.1s}
+      @keyframes fadeIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+      
+      .flower-message-section .message-b8{opacity:0}
+      .flower-message-section .message-card{opacity:0}
+      .flower-message-section.show .message-b8{opacity:1}
+      .flower-message-section.show .message-card{opacity:1}
+      
+      /* responsive */
+      @media(max-width:768px){.flower-collage-section{min-height:auto;padding:30px 20px}.collage-container{height:900px}.img-b1{left:3%;width:160px;height:160px}.img-b2{left:30%;width:140px;height:80px}.img-b3{left:55%;width:280px;height:140px}.img-b4{left:5%;width:160px;height:140px}.img-b5{left:33%;width:120px;height:120px}.img-b6{left:56%;width:140px;height:160px}.img-b7{left:78%;width:110px;height:140px}.note{font-size:12px!important}.flower-message-section{flex-direction:column;align-items:center;gap:20px}}
+      
+      @media(max-width:520px){#pageFlower{margin:0}.flower-collage-section{padding:20px 12px}.collage-container{height:auto}.collage-container img{position:relative;width:90%!important;height:auto;margin:10px auto}.collage-container .note{display:none}.flower-message-section{flex-direction:column;gap:20px;padding:30px 12px 60px;margin-top:40px}.message-b8{width:100%;max-width:280px}}
+    </style>
+
+    <!-- SECTION 1: COLLAGE ONLY -->
+    <div class="flower-collage-section">
+      <div class="gift-page-title">More memories, more adventures, more birthdays with you.</div>
+      
+      <div class="collage-container" id="scrapboard">
+        <!-- Images b1..b7 -->
+        <img src="b1.png" alt="b1" class="img-b1">
+        <img src="b2.png" alt="b2" class="img-b2">
+        <img src="b3.jpeg" alt="b3" class="img-b3">
+        <img src="b4.jpeg" alt="b4" class="img-b4">
+        <img src="b5.jpeg" alt="b5" class="img-b5">
+        <img src="b6.jpeg" alt="b6" class="img-b6">
+        <img src="b7.jpeg" alt="b7" class="img-b7">
+        
+        <!-- Handwritten notes -->
+        <div class="note note1" contenteditable="true">Happy birthday!</div>
+        <div class="note note2" contenteditable="true">Every moment with you feels like a beautiful sunset.</div>
+        <div class="note note3" contenteditable="true">No matter where we are, as long as I'm with you. Happy birthday to the one who makes my world brighter.</div>
+        <div class="note note4" contenteditable="true">Your arms will always be my favorite place.</div>
+        <div class="note note5" contenteditable="true">Thank you for filling my days with laughter and love.</div>
+        <div class="note note6" contenteditable="true">so proud of you</div>
+        <div class="note note7" contenteditable="true">My favorite</div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: MESSAGE & B8 -->
+    <div class="flower-message-section" id="flowerMessageSection">
+      <img class="message-b8" src="b8.jpeg" alt="b8">
+      <div class="message-card">
+        <h3 contenteditable="true">happy birthday</h3>
+        <p contenteditable="true">To the one who makes every day brighter — love you more than words. — Moxie</p>
+      </div>
+    </div>
+
+    <button class="back-btn back-to-gifts">back to gifts ✦</button>
+
+    <script>
+      (function(){
+        // trigger collage entrance animation
+        const collage=document.getElementById('scrapboard');
+        requestAnimationFrame(()=>setTimeout(()=>collage.classList.add('ready'),100));
+        
+        // reveal message section on scroll
+        const msgSection=document.getElementById('flowerMessageSection');
+        const flowerPage=document.getElementById('pageFlower');
+        if('IntersectionObserver' in window && flowerPage){
+          const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{ if(e.isIntersecting){ msgSection.classList.add('show'); io.unobserve(msgSection); } })},{root: flowerPage, threshold:0.2});
+          io.observe(msgSection);
+        } else { msgSection.classList.add('show'); }
+      })();
+    </script>
+
+  </section>
+
+  <!-- ==========================================================
+       PAGE 5 — CAKE GIFT
+       Shows birthday cake with 3 polaroid photos around it
+       and a small note below
+       ========================================================== -->
+  <section class="page gift-page" id="pageCake">
+    <div class="sparkles"></div>
+
+    <!-- ✏️ Page title -->
+    <div class="gift-page-title">make a wish !</div>
+
+    <!-- Main cake collage composition -->
+    <div class="gift-display cake-scene">
+      <img src="stars.gif" alt="" class="cake-star cake-star-1">
+      <img src="stars.gif" alt="" class="cake-star cake-star-2">
+      <img src="stars.gif" alt="" class="cake-star cake-star-3">
+      <img src="stars.gif" alt="" class="cake-star cake-star-4">
+      <img src="stars.gif" alt="" class="cake-star cake-star-5">
+      <img src="stars.gif" alt="" class="cake-star cake-star-6">
+      <img src="cake2.png" alt="cake" class="cake-img cake-main">
+      <img src="bow.png" alt="bow" class="cake-img cake-bow">
+      <img src="momyy.png" alt="momyy" class="cake-img cake-momyy">
+      <img src="two.png" alt="two" class="cake-img cake-two">
+      <img src="twoo.png" alt="twoo" class="cake-img cake-twoo">
+    </div><!-- end .gift-display -->
+
+    <!-- ─────────────────────────────────────────
+         CAKE NOTE — small paper note below
+         ✏️ Edit heading and body text
+         ───────────────────────────────────────── -->
+    <div class="gift-note">
+      <img src="sparkleleft.gif" alt="" class="cake-sparkle cake-sparkle-left">
+      <img src="sparkle.gif" alt="" class="cake-sparkle cake-sparkle-right">
+      <div class="letter-heading">One more wish 🎂</div>
+      I hope this year brings you everything you've been wishing for —
+      and a few sweet surprises along the way. Happy birthday, love.
+    </div>
+
+    <button class="back-btn back-to-gifts">back to gifts ✦</button>
+
+    <script>
+      (function () {
+        var page = document.getElementById('pageCake');
+        var scene = document.querySelector('.cake-scene');
+
+        function playCakeScene() {
+          if (!scene) return;
+          scene.classList.remove('ready');
+          void scene.offsetWidth;
+          requestAnimationFrame(function () {
+            scene.classList.add('ready');
+          });
+        }
+
+        function resetCakeScene() {
+          if (scene) scene.classList.remove('ready');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          if (page && page.classList.contains('active')) playCakeScene();
+
+          document.querySelectorAll('.gift-item').forEach(function (item) {
+            item.addEventListener('click', function () {
+              if (item.getAttribute('data-target') === 'pageCake') {
+                setTimeout(playCakeScene, 220);
+              }
+            });
+          });
+
+          document.querySelectorAll('.back-to-gifts').forEach(function (btn) {
+            btn.addEventListener('click', resetCakeScene);
+          });
+
+          if (window.MutationObserver && page) {
+            var wasActive = page.classList.contains('active');
+            var observer = new MutationObserver(function (mutations) {
+              mutations.forEach(function (mutation) {
+                if (mutation.attributeName !== 'class') return;
+                var isActive = page.classList.contains('active');
+                if (!wasActive && isActive) playCakeScene();
+                if (wasActive && !isActive) resetCakeScene();
+                wasActive = isActive;
+              });
+            });
+            observer.observe(page, { attributes: true, attributeFilter: ['class'] });
+          }
+        });
+      })();
+    </script>
+  </section>
+
+
+</div><!-- end #app -->
+
+
+<!-- ==========================================================
+     PHOTO MODAL
+     Appears when you tap any polaroid photo.
+     Tap the dark background to close it.
+     ========================================================== -->
+<div class="modal-overlay" id="modalOverlay">
+  <img src="" alt="Memory" class="modal-img" id="modalImg">
+</div>
+
+
+<!-- Our JavaScript -->
+<script src="script.js"></script>
+<script>
+// Animation & sequence controller for the message gift page
+(function(){
+  var page = document.getElementById('pageMessage');
+
+  function setAnimate(on){
+    if(!page) return;
+    if(on){
+      page.classList.add('animate');
+    } else {
+      page.classList.remove('animate');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    // if page already active, start animations
+    if(page && page.classList.contains('active')) setAnimate(true);
+
+    // Observe when the page becomes active so gather auto-triggers
+    if(window.MutationObserver && page){
+      var wasActive = false;
+      var mo = new MutationObserver(function(muts){
+        muts.forEach(function(m){
+          if(m.attributeName === 'class'){
+            var isActive = page.classList.contains('active');
+            // Only trigger on transition from inactive to active
+            if(!wasActive && isActive){
+              setAnimate(true);
+              wasActive = true;
+            } else if(wasActive && !isActive){
+              setAnimate(false);
+              wasActive = false;
+            }
+          }
+        });
+      });
+      mo.observe(page, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    // Clicking a gift item that targets pageMessage should trigger animation
+    document.querySelectorAll('.gift-item').forEach(function(it){
+      it.addEventListener('click', function(){
+        var target = it.dataset.target;
+        if(target === 'pageMessage'){
+          setTimeout(function(){ setAnimate(true); }, 220);
+        }
+      });
+    });
+
+    // Remove animations when navigating back to gifts
+    document.querySelectorAll('.back-to-gifts').forEach(function(btn){
+      btn.addEventListener('click', function(){ setAnimate(false); });
+    });
+
+  });
+})();
+</script>
+
+</body>
+</html>
